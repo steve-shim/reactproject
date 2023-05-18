@@ -57,6 +57,8 @@ const reducer = (state, action) => {
   }
 }
 
+export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 
 function App() {
 
@@ -138,6 +140,14 @@ function App() {
     // )
   },[])
 
+  // const dispatches = {
+  //   onCreate, onRemove, onEdit
+  // }
+
+  const memoizedDispatches = useMemo(() => {
+    return {onCreate, onRemove, onEdit}
+  },[])
+
   // getDiaryAnalysis is not a function
   // 일기 리스트 데이터를 수정하는 것은 데이터의 길이에 영향을 미치지 않으므로 App 컴포넌트가 다시렌더링이 되더라도 수행되지 않는다
   const getDiaryAnalysis = useMemo(
@@ -159,16 +169,22 @@ function App() {
   }, [data])
 
   return (
-    <div className="App">
+    <>
       <OptimizeTest />
       <Lifecycle />
-      <DiaryEditor onCreate={onCreate} />
-      <div>전체 일기: {data.length}</div>
-      <div>기분 좋은 일기 개수: {goodCount}</div>
-      <div>기분 나쁜 일기 개수: {badCount}</div>
-      <div>기분 좋은 일기 비율: {goodRatio}%</div>
-      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
-    </div>
+      <DiaryStateContext.Provider value={data}>
+        <DiaryDispatchContext.Provider value={memoizedDispatches}>
+          <div className="App">
+            <DiaryEditor />
+            <div>전체 일기: {data.length}</div>
+            <div>기분 좋은 일기 개수: {goodCount}</div>
+            <div>기분 나쁜 일기 개수: {badCount}</div>
+            <div>기분 좋은 일기 비율: {goodRatio}%</div>
+            <DiaryList />
+          </div>
+        </DiaryDispatchContext.Provider>
+      </DiaryStateContext.Provider>
+    </>
   );
 }
 

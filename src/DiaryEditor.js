@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
-const DiaryEditor = ({ onCreate }) => {
+import {DiaryDispatchContext} from "./App.js"
+
+const DiaryEditor = () => {
     //useEffect: 뒤에 배열인자가 없으면 렌더링 될대마다 실행
     useEffect(() => {
         console.log("DiaryEditor 랜더")
     })
+
+    const {onCreate} = useContext(DiaryDispatchContext)
 
     const authorInput = useRef();
     const contentInput = useRef();
