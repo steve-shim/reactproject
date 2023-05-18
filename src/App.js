@@ -119,16 +119,16 @@ function App() {
       //setData((data) => [newItem, ...data])
     }, []);
 
-  const onRemove = (targetId) => {
+  const onRemove = useCallback((targetId) => {
     //console.log(`${targetId}가 삭제되었습니다.`)
 
     dispatch({ type: "REMOVE", targetId })
     //const newDiaryList = data.filter((it) => it.id !== targetId);
     //console.log(newDiaryList);
     //setData(newDiaryList);
-  };
+  },[]);
 
-  const onEdit = (targetId, newContent) => {
+  const onEdit = useCallback((targetId, newContent) => {
 
     dispatch({ type: "EDIT", targetId, newContent })
     // setData(
@@ -136,7 +136,7 @@ function App() {
     //     it.id === targetId ? { ...it, content: newContent } : it
     //   )
     // )
-  }
+  },[])
 
   // getDiaryAnalysis is not a function
   // 일기 리스트 데이터를 수정하는 것은 데이터의 길이에 영향을 미치지 않으므로 App 컴포넌트가 다시렌더링이 되더라도 수행되지 않는다
